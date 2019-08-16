@@ -17,6 +17,9 @@
 
     <script>
 
+
+$( "#result" ).load( "https://www.strava.com/athletes/34470752" );
+
     </script>
 
 </head>
@@ -24,7 +27,7 @@
 <body>
 
 
-
+<div id="result"> </div>
 
 </body>
 
