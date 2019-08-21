@@ -12,11 +12,10 @@ html, body {
 </style>
 
 <script>
-
 </script>
 </head>
 
 <body>
-<strong>Christopher J. Seeger</strong><br>
+<strong>Christopher J. Seeger, PLA</strong><br>
 </body>
 </html>
