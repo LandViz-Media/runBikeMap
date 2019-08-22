@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title></title>
+<title>Linear Pace</title>
 <style>
 html, body {
     /*height:100%;*/
@@ -16,6 +16,6 @@ html, body {
 </head>
 
 <body>
-<strong>Christopher J. Seeger, PLA</strong><br>
+<strong>Linear Pace</strong><br>
 </body>
 </html>
