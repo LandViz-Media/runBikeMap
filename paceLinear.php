@@ -25,7 +25,7 @@ html, body {
 </head>
 
 <body>
-<strong>Linear Pace</strong><br>
+<h1>Linear Pace</h1>
 
 <div class="row">
   <div class="col-sm-4">.col-sm-4</div>
