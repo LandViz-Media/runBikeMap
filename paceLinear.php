@@ -27,11 +27,30 @@ html, body {
 <body>
 <h1>Linear Pace</h1>
 
-<div class="row">
-  <div class="col-sm-4">.col-sm-4</div>
-  <div class="col-sm-8">.col-sm-8</div>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      1 of 3
+    </div>
+    <div class="col-6">
+      2 of 3 (wider)
+    </div>
+    <div class="col">
+      3 of 3
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      1 of 3
+    </div>
+    <div class="col-5">
+      2 of 3 (wider)
+    </div>
+    <div class="col">
+      3 of 3
+    </div>
+  </div>
 </div>
-
 
 
 
