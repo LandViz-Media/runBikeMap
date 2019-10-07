@@ -57,6 +57,7 @@ elevMin =  e.target.get_elevation_min_imp(); // returns the lowest elevation, in
 elevMax = e.target.get_elevation_max_imp(); // returns the highest elevation, in feet
 elevGain = e.target.get_elevation_gain_imp(); // returns the cumulative elevation gain, in feet
 elevLoss = e.target.get_elevation_loss_imp(); // returns the cumulative elevation loss, in feet
+console.log(e.target);
 
 
 totalTime = e.target.get_total_time() // returns the total track time, in milliseconds
