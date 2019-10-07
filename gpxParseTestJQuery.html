@@ -12,12 +12,14 @@ html, body {
 </style>
 
  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+
 <script src='../classes/togeojson.js'></script>
 
 
 <script>
-$.ajax('sample.gpx').done(function(xml) {
-    console.log(toGeoJSON.kml(xml));
+$.ajax('sample.gpx').done(function(gpx) {
+    console.log(toGeoJSON.gpx(gpx));
 });
 </script>
 </head>
