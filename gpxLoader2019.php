@@ -49,20 +49,24 @@ if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
 	    $name = $row["name"];
     }
-    print $name;
+   print $name."<br><br>";
 }
 
-$mysqli->close();
+//$mysqli->close();
 
 
 
 
 
 
-	$name = $_POST['name'];
-	$filename = $_POST['filename'];
-	//$gpx = simplexml_load_file("uploads/2015-08-20 16_09_22.gpx");
-	$gpx = simplexml_load_file("sample/".$filename.".gpx");
+
+	//$name = $_POST['name'];
+	$name = "Chris";
+	$type = "run";
+	//$filename = $_POST['filename'];
+	$filename ="sample.gpx";
+	$gpx = simplexml_load_file($filename);
+	//$gpx = simplexml_load_file("sample/".$filename.".gpx");
 
 	$firstPoint = true;
 
@@ -82,20 +86,17 @@ $mysqli->close();
 
 
 
+print $gpxDatetime."---".$date." ".$time." ".$latitude." ".$longitude." ".$elevation."<br>";
 
+/*
 				//need to add all raw data to table of all points
-			    $sql="INSERT INTO ky_route_all (datetime, type, latitude, longitude, team, name, scenario, filename, email) VALUES ('$datetime', '$type', '$latitude', '$longitude', '$team', '$name', '$scenario', '$filename', '$email')";
+			    $sql="INSERT INTO ky_route_all (datetime, type, latitude, longitude, name, filename) VALUES ('$datetime', '$type', $latitude, $longitude, '$name', '$filename' )";
 				if ($mysqli->query($sql)) {
 					//could print somethign to screen
 	        	} else {
 					echo "Error: " . $sql ."<br>" .mysqli_error($mysqli);
 	    		}
-
-
-
-
-
-
+*/
 
 
 
@@ -106,17 +107,19 @@ $mysqli->close();
 				    $firstPoint = false;
 				    $distLastPointMeters = 0;
 				    $maxSpeed = 0;
-				    $sql="INSERT INTO $table (datetime, type, latitude, longitude, team, name, scenario, distLastPointMeters, filename, email, secondsLastPoint, mph ) VALUES ('$datetime', '$type', '$latitude', '$longitude', '$team', '$name', '$scenario', '$distLastPointMeters', '$filename', '$email', 0, 0)";
+				    $sql="INSERT INTO $table (datetime, type, latitude, longitude, name, distLastPointMeters, filename, secondsLastPoint, mph ) VALUES ('$datetime', '$type', $latitude, $longitude, '$name', $distLastPointMeters, '$filename', 0, 0)";
+
 
 					if ($mysqli->query($sql)) {
-						//could print somehtign to screen
+						//could print somethign to screen
 		        	} else {
-						echo "Error: " . $sql ."<br>" .mysqli_error($mysqli);
+						echo "Error!!!!!: " . $sql ."<br>" .mysqli_error($mysqli);
 		    		}
 
 					$latitudeLast = $latitude;
 					$longitudeLast = $longitude;
 					$datetimeLast = $datetime;
+					$startTime = $datetime;
 
 					//$distance = 0;
 
@@ -133,6 +136,8 @@ $mysqli->close();
 					$dist = acos($dist);
 					$dist = rad2deg($dist);
 					$miles = $dist * 60 * 1.1515;
+
+					$milesTotal = $milesTotal + $miles;
 					$unit = strtoupper($unit);
 
 					if ($unit == "K") {
@@ -148,7 +153,9 @@ $mysqli->close();
 					//'K' is kilometers
 					//'N' is nautical miles
 
-					if ($distance > 5) {
+
+					$distanceInterval = 10; //this is how many units to cover before recording a point in the DB
+					if ($distance > $distanceInterval) {
 			        	//echo distance($latitude, $longitude, $latitudeLast, $longitudeLast, "M")."<br>";
 						//print $distance;
 
@@ -167,7 +174,7 @@ $mysqli->close();
 						}
 						echo $message;
 
-						if ($mph > 0 AND $mph < 5){
+						if ($mph > 0 AND $mph < 4){
 							$walkScore++;
 						}elseif ($mph >= 5 AND $mph < 15){
 							$bikeScore++;
@@ -177,24 +184,26 @@ $mysqli->close();
 
 						$latitudeLast = $latitude;
 						$longitudeLast = $longitude;
-						$distLastPointMeters = round($distance, 1);
+						$distLastPointMeters = round($distance, 2);
 
-						$distLastPointMeters = round($distance, 1);
+						$distLastPointMeters = round($distance, 2);
 						$mph = round($mph, 2);
 						$datetimeLast = $datetime;
 
-						$sql="INSERT INTO $table (datetime, type, latitude, longitude, team, name, scenario, distLastPointMeters, filename, email, secondsLastPoint, mph, newTopSpeed) VALUES ('$datetime', '$type', '$latitude', '$longitude', '$team', '$name', '$scenario', '$distLastPointMeters', '$filename', '$email', '$secondsLastPoint', '$mph', '$newTopSpeed')";
+						$sql="INSERT INTO $table (datetime, type, latitude, longitude, name, distLastPointMeters, filename, secondsLastPoint, mph, newTopSpeed) VALUES ('$datetime', '$type', '$latitude', '$longitude', '$name', '$distLastPointMeters', '$filename', '$secondsLastPoint', '$mph', '$newTopSpeed')";
 
 						if ($mysqli->query($sql)) {
 							//could print somehtign to screen
 			        	} else {
 			            	echo "Error: " . $sql . "<br>" . mysqli_error($mysqli);
 			        	};
-			    	};//end if distance > 5
+			    	};//end if distance > $distanceInterval
 			    }//end testing of distance;
 			};
 		};
 	};
+
+
 
 
 	$totalScore = $walkScore + $bikeScore + $otherScore;
@@ -203,12 +212,23 @@ $mysqli->close();
 	$bikeScorePercent = ($bikeScore / $totalScore)*100;
 	$otherScorePercent = ($otherScore / $totalScore)*100;
 
+$totalTime = strtotime($datetime) - strtotime($startTime);
+$totalTime = $totalTime /60;
+print $totalTime."<br>";
+$totalTime_Min = floor($totalTime);
+$totalTime_Sec = ($totalTime - $totalTime_Min)*60;
+$totalTime = $totalTime_Min.":".$totalTime_Sec;
 
 
-	print "<br><br>---------- The max speed was ".round($maxSpeed,2). " MPH ----------<br> Percent walking  (< 5 MPH): ".round($walkScorePercent,2)."<br> Percent biking (5 - 15 MPH): ".round($bikeScorePercent,2)."<br> Other: ".round($otherScorePercent,2)."<br><br>";
+$totalDistance = $milesTotal;
+
+print "<hr>Total Distance: ".$totalDistance."<br>Total Time: ".$totalTime;
 
 
+	print "<br><br>---------- The max speed was ".round($maxSpeed,2). " MPH ----------<br> Percent walking  (under 4 MPH): ".round($walkScorePercent,2)."<br> Percent biking (5 to 15 MPH): ".round($bikeScorePercent,2)."<br> Other: ".round($otherScorePercent,2)."<br><br>";
 
+
+/*
 
 	$sql = "UPDATE $table SET typeDerived='$typeDerived' WHERE filename='$filename'";
 
@@ -226,7 +246,7 @@ $mysqli->close();
 	    echo "Error updating record: " . $mysqli->error;
 	};
 
-
+*/
 
 
 unset($gpx);
