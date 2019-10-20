@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<?php
+<?PHP
 if ($_POST == null OR $_POST == "") {
 ?>
 	<form action="gpxLoader2019.php" method="post" enctype="multipart/form-data">
@@ -22,7 +22,7 @@ if ($_POST == null OR $_POST == "") {
 	<hr>
 	</form>
 
-<?php
+<?PHP
 }else{
 
 //header('Content-type: text/plain');
@@ -36,7 +36,6 @@ if ($mysqli->connect_error) {
 
 
 $table = 'running_cjs_stats';
-
 
 $sql = "SELECT name FROM $table";
 
@@ -52,8 +51,6 @@ if ($result->num_rows > 0) {
 }
 
 //$mysqli->close();
-
-
 
 
 
