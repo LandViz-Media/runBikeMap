@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>GPX loader 2019</title>
+<title>GPX track loader 2019</title>
 <script>
 
 </script>
@@ -12,7 +12,6 @@
 if ($_POST == null OR $_POST == "") {
 ?>
 	<form action="gpxLoader2019.php" method="post" enctype="multipart/form-data">
-
 
 
 	  Filename: <input type="text" name="filename"/><br>
