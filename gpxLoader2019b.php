@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>GPX track loader 2019</title>
+<title>GPX track loader 2019b - make GeoJSON</title>
 <script>
 
 </script>
@@ -33,7 +33,7 @@ if ($mysqli->connect_error) {
     die("Connection failed: " . $mysqli->connect_error);
 }
 
-
+/*
 $table = 'running_cjs_stats';
 
 $sql = "SELECT name FROM $table";
@@ -60,11 +60,13 @@ if ($result->num_rows > 0) {
 	$filename ="sample.gpx";
 	$gpx = simplexml_load_file($filename);
 	//$gpx = simplexml_load_file("sample/".$filename.".gpx");
-
+*/
 	$firstPoint = true;
 
 
 		foreach ($gpx->trk as $trk) {
+			$trkname = (string) $trk->name;
+
 		  foreach ($trk->trkseg as $trkseg) {
 		      foreach ($trkseg->trkpt as $pt) {
 			  	$datetime = '';
@@ -78,7 +80,7 @@ if ($result->num_rows > 0) {
 				$elevation = (string) $pt->ele;
 
 
-
+print "trackname: ".$trkname."<br>";
 print $gpxDatetime."---".$date." ".$time." ".$latitude." ".$longitude." ".$elevation."<br>";
 
 /*
@@ -184,12 +186,13 @@ print $gpxDatetime."---".$date." ".$time." ".$latitude." ".$longitude." ".$eleva
 						$datetimeLast = $datetime;
 
 						$sql="INSERT INTO $table (datetime, type, latitude, longitude, name, distLastPointMeters, filename, secondsLastPoint, mph, newTopSpeed) VALUES ('$datetime', '$type', '$latitude', '$longitude', '$name', '$distLastPointMeters', '$filename', '$secondsLastPoint', '$mph', '$newTopSpeed')";
-
+/*
 						if ($mysqli->query($sql)) {
 							//could print somehtign to screen
 			        	} else {
 			            	echo "Error: " . $sql . "<br>" . mysqli_error($mysqli);
 			        	};
+*/
 			    	};//end if distance > $distanceInterval
 			    }//end testing of distance;
 			};
