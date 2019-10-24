@@ -54,7 +54,7 @@ if ($result->num_rows > 0) {
 
 
 	//$name = $_POST['name'];
-	$name = "Chris";
+	$name = "Chriss";
 	$type = "run";
 	//$filename = $_POST['filename'];
 	$filename ="sample.gpx";
@@ -63,9 +63,11 @@ if ($result->num_rows > 0) {
 */
 	$firstPoint = true;
 
-
+print "---- -<br>";
 		foreach ($gpx->trk as $trk) {
-			$trkname = (string) $trk->name;
+			$trkName = (string) $trk->name;
+//print "trackname: ".$trkName."<br>";
+print "------";
 
 		  foreach ($trk->trkseg as $trkseg) {
 		      foreach ($trkseg->trkpt as $pt) {
@@ -80,8 +82,8 @@ if ($result->num_rows > 0) {
 				$elevation = (string) $pt->ele;
 
 
-print "trackname: ".$trkname."<br>";
-print $gpxDatetime."---".$date." ".$time." ".$latitude." ".$longitude." ".$elevation."<br>";
+
+print $gpxDatetime."-- -".$date."---".$time."---".$latitude." ".$longitude." ".$elevation."<br>";
 
 /*
 				//need to add all raw data to table of all points
